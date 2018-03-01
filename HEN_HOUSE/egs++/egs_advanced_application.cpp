@@ -753,11 +753,17 @@ int EGS_AdvancedApplication::helpInit(EGS_Input *transportp, bool do_hatch) {
     bca.info(nc);
     skind.info(nc);
     tran.info(nc);
+
+    the_emf->emfield_on = false;
     if (efield.size()==3) {
         efield.info(nc);
         the_emf->ExIN=efield_v[0];
         the_emf->EyIN=efield_v[1];
         the_emf->EzIN=efield_v[2];
+        if (efield_v[0]*efield_v[0]+efield_v[1]*efield_v[1]+efield_v[2]*efield_v[2] > 0) {
+            the_emf->emfield_on = true;
+        }
+
     }
     if (bfield.size()==3) {
         bfield.info(nc);
@@ -770,6 +776,9 @@ int EGS_AdvancedApplication::helpInit(EGS_Input *transportp, bool do_hatch) {
     }
     if (efield.size()==3 || bfield.size()==3) {
         estepem.info(nc);
+        if (bfield_v[0]*bfield_v[0]+bfield_v[1]*bfield_v[1]+bfield_v[2]*bfield_v[2] > 0) {
+            the_emf->emfield_on = true;
+        }
     }
     egsInformation("==============================================\n\n");
 
