@@ -104,4 +104,3 @@ endif
 # nmake-msvc qt configuration => gui_make must be set to nmake.
 #
 gui_make = mingw32-make
-
