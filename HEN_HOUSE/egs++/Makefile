@@ -65,9 +65,7 @@ shape_libs = egs_circle egs_ellipse egs_extended_shape egs_gaussian_shape \
 aobject_libs = egs_track_scoring egs_dose_scoring
 
 all_libs = $(geometry_libs) $(source_libs) $(shape_libs) $(aobject_libs)
-
 lib_objects = $(addprefix $(DSO1), $(addsuffix .$(obje), $(all_libs)))
-lib_binaries = $(addprefix $(DSO1)$(libpre), $(addsuffix $(libext), $(all_libs)))
 
 #******************************************************************************
 
@@ -204,7 +202,7 @@ clean:
 	$(REMOVE) $(egspp_objects) $(DSO1)test.exe
 
 realclean:
-	$(REMOVE) $(egspp_objects) $(lib_objects) $(lib_binaries) $(DSO1)test.exe
+	$(REMOVE) $(egspp_objects) $(lib_objects) $(DSO1)test.exe
 	$(REMOVE) $(DSO1)egs_envelope_geometry.$(obje) $(DSO1)egs_stack_geometry.$(obje) $(DSO1)egs_union_geometry.$(obje) $(DSO1)egs_angular_spread_source.$(obje)
 
-.PHONY: libs $(all_libs) clean
+.PHONY: libs $(all_libs) clean realclean
