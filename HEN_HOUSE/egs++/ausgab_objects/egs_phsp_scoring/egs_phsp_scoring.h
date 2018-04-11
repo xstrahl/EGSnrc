@@ -80,41 +80,47 @@ public:
     ~EGS_PhspScoring();
 
     int processEvent(EGS_Application::AusgabCall iarg) {
-      if (ocharge==0 || 1+abs(app->top_p.q)==ocharge) {
-        EGS_Vector x = app->top_p.x;
+        if (ocharge==0 || 1+abs(app->top_p.q)==ocharge) {
+            EGS_Vector x = app->top_p.x;
 
-        if (iarg == 0) phsp_before = phsp_geom->isInside(x);
+            if (iarg == 0) {
+                phsp_before = phsp_geom->isInside(x);
+            }
 
-        if (iarg == 5) {
-            phsp_after = phsp_geom->isInside(x);
-            if (phsp_after != phsp_before) {
-              if (scoredir == 0 || (scoredir == 1 && phsp_after) ||
-                  (scoredir == 2 && phsp_before))
-                      storeParticle(current_case);
+            if (iarg == 5) {
+                phsp_after = phsp_geom->isInside(x);
+                if (phsp_after != phsp_before) {
+                    if (scoredir == 0 || (scoredir == 1 && phsp_after) ||
+                            (scoredir == 2 && phsp_before)) {
+                        storeParticle(current_case);
+                    }
+                }
             }
         }
-      }
-      return 0;
+        return 0;
     };
 
     int processEvent(EGS_Application::AusgabCall iarg, int ir) {
         //same as above, we don't need the region no.
-      if (ocharge==0 || 1+abs(app->top_p.q)==ocharge) {
-        EGS_Vector x = app->top_p.x;
+        if (ocharge==0 || 1+abs(app->top_p.q)==ocharge) {
+            EGS_Vector x = app->top_p.x;
 
-        if (iarg == 0) phsp_before = phsp_geom->isInside(x);
+            if (iarg == 0) {
+                phsp_before = phsp_geom->isInside(x);
+            }
 
-        if (iarg == 5) {
-            phsp_after = phsp_geom->isInside(x);
-            if (phsp_after != phsp_before) {
-                //store the particle
-             if (scoredir == 0 || (scoredir == 1 && phsp_after) ||
-                  (scoredir == 2 && phsp_before))
-                   storeParticle(current_case);
+            if (iarg == 5) {
+                phsp_after = phsp_geom->isInside(x);
+                if (phsp_after != phsp_before) {
+                    //store the particle
+                    if (scoredir == 0 || (scoredir == 1 && phsp_after) ||
+                            (scoredir == 2 && phsp_before)) {
+                        storeParticle(current_case);
+                    }
+                }
             }
         }
-      }
-      return 0;
+        return 0;
     };
 
     bool needsCall(EGS_Application::AusgabCall iarg) const {
@@ -144,17 +150,21 @@ public:
         phspoutdir =  outdir;
     }
 
-    void setParticleType (const int ptype) {
+    void setParticleType(const int ptype) {
         ocharge = ptype;
     }
 
-    void setScoreDir (const int sdir) {
+    void setScoreDir(const int sdir) {
         scoredir = sdir;
     }
 
-    void setMuScore (const int imuscore) {
-        if (imuscore == 1) score_mu = true;
-        else score_mu = false;
+    void setMuScore(const int imuscore) {
+        if (imuscore == 1) {
+            score_mu = true;
+        }
+        else {
+            score_mu = false;
+        }
     }
 
     //method below pertains only to IAEA format
@@ -162,10 +172,10 @@ public:
     //if scoring at a constant X/Y/Z value and store the
     //constant value in element 0/1/2 of array xyzscore
     void setXYZconst(bool xyzisconst[3], float xyzconst[3]) {
-       for (int i=0; i<3; i++) {
-         xyz_is_const[i] = xyzisconst[i];
-         xyzscore[i]=xyzconst[i];
-       }
+        for (int i=0; i<3; i++) {
+            xyz_is_const[i] = xyzisconst[i];
+            xyzscore[i]=xyzconst[i];
+        }
     }
 
     //set output directory
@@ -193,28 +203,36 @@ protected:
 
     //functions, struct and variables used to write EGSnrc format phsp files
     static unsigned int bclr() {
-          return ~( (1 << 31) | (1 << 30) | (1 << 29) );
+        return ~((1 << 31) | (1 << 30) | (1 << 29));
     }
     static unsigned int bsqe() {
-           return (1 << 30);
+        return (1 << 30);
     }
     static unsigned int bsqp() {
-           return (1 << 29);
+        return (1 << 29);
     }
     struct egs_phsp_write_struct {
-       int   latch;
-       float E;
-       float x,y;
-       float u,v;
-       float wt;
-       egs_phsp_write_struct() {};
-       egs_phsp_write_struct(const Particle &p) {
-        latch = (p.latch & bclr());
-        if( p.q == -1 ) latch = (latch | bsqe());
-        else if( p.q == 1 ) latch = (latch | bsqp());
-        E = p.E; x = p.x; y = p.y; u = p.u; v = p.v;
-        wt = p.w >= 0 ? p.wt : -p.wt;
-       };
+        int   latch;
+        float E;
+        float x,y;
+        float u,v;
+        float wt;
+        egs_phsp_write_struct() {};
+        egs_phsp_write_struct(const Particle &p) {
+            latch = (p.latch & bclr());
+            if (p.q == -1) {
+                latch = (latch | bsqe());
+            }
+            else if (p.q == 1) {
+                latch = (latch | bsqp());
+            }
+            E = p.E;
+            x = p.x;
+            y = p.y;
+            u = p.u;
+            v = p.v;
+            wt = p.w >= 0 ? p.wt : -p.wt;
+        };
     };
     mutable fstream phsp_file; //output file -- mutable so we can write to it during storeState
     EGS_I64 count; //total no. of particles in file
