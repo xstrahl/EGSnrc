@@ -346,7 +346,7 @@ for test_arg in -v; do
                 f_version="GNU F77 version $junk"
                 #f_fflags="-fno-automatic -finit-local-zero"
                 # don't need this with new EGSnrc
-                f_oflags="-O2"
+                f_oflags="-O2 -mtune=native"
                 f_dflags="-g"
                 if test ! x$is_x86_64 = x; then
                     f_fflags="-fPIC"
@@ -357,7 +357,7 @@ for test_arg in -v; do
             if test "x$junk" != x; then
                 junk=$(echo $junk | sed 's/.*GNU F95 version//g' | awk '{print $1}')
                 f_version="GNU F95 version $junk"
-                f_oflags="-O2"
+                f_oflags="-O2 -mtune=native"
                 f_dflags="-g"
                 if test ! x$is_x86_64 = x; then
                     f_fflags="-fPIC"
