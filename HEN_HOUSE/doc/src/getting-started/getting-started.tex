@@ -55,6 +55,8 @@
 \usepackage{graphicx}
 \usepackage{html}
 \usepackage{fancyhdr}
+\usepackage{multirow}
+\usepackage{hhline}
 \renewcommand{\footrulewidth}{0.4pt}
 \renewcommand{\headrulewidth}{0.4pt}
 \setlength{\headheight}{16pt}
@@ -191,7 +193,7 @@ Copyright 2017, National Research Council of Canada Ottawa
 \pagestyle{empty}
 
 \title{Getting Started with EGSnrc}
-\author{ R. Townson, F. Tessier, E. Mainegra \\
+\author{ R. Townson, F. Tessier, E. Mainegra, B. Walters \\
 Ionizing Radiation Standards\\
 National Research Council of Canada,
 Ottawa\\
@@ -257,6 +259,188 @@ If you have any issues with the installation process, the google+ community is a
 
 \addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
 % From this point on, only show up to \subsection in the ToC
+
+
+\clearpage
+\section{EGSnrc overview: the applications}
+\label{apps}
+
+\addtocontents{toc}{\protect\setcounter{tocdepth}{3}}
+% From this point on, only show up to \subsubsection in the ToC
+
+\begin{itemize}
+\item EGSnrc is a collection of generic routines that simulate the transport
+and interactions of photons, electrons and positrons in matter.
+\item The majority of users do not write their own applications - the codes distributed
+with EGSnrc are useful for a wide range of calculations.
+\item Users can write their own applications that take advantage of the EGSnrc
+system, or \textit{toolkit}, by writing a program which specifies their
+particular problem in the \Verb+MAIN+ program and communicates with EGSnrc
+through the user-supplied routines \Verb+AUSGAB+, \Verb+HOWFAR+ and \Verb+HOWNEAR+
+and the EGSnrc routines \Verb+HATCH+ and \Verb+SHOWER+.
+\item In principle, applications can be written in any programming language as
+long as it can interface with the Fortran EGSnrc code-base.
+\item Most commonly, applications are written in \Verb+MORTRAN3+ (native EGSnrc
+language) or C++, although they could also be written in \Verb+FORTRAN+ or C.
+\end{itemize}
+
+\begin{center}
+\includegraphics[height=340pt]{figures/egsApplications}
+\end{center}
+
+EGSnrc source code: \Verb+$HEN_HOUSE/src/egsnrc.mortran+
+
+EGSnrc global variables: \Verb+$HEN_HOUSE/src/egsnrc.macros+
+
+GUI: \Verb+~/EGSnrc/HEN_HOUSE/gui/egs_gui+
+
+\subsection{BEAMnrc}
+\begin{itemize}
+\item Ideal for linear accelerator modelling and x-ray systems
+\item Includes geometries (called component modules) that can easily represent flattening filters, collimators, MLCs, etc.
+\item Accelerators can be compiled as shared libraries to be used as a particle source for other applications
+\item Includes time-synchronized capabilities (e.g. dynamic jaws and MLCs)
+\item Written in MORTRAN3
+\end{itemize}
+
+Documentation: \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs509a-beamnrc.pdf}{PIRS-509a}
+
+Source code: \Verb+$HEN_HOUSE/omega/beamnrc+
+
+Global variables: \Verb+$HEN_HOUSE/omega/beamnrc/beamnrc_user_macros.mortran+
+
+GUI (launch with \Verb+wish+): \Verb+$HEN_HOUSE/omega/progs/gui/beamnrc/beamnrc_gui.tcl+
+
+\subsection{DOSXYZnrc}
+\begin{itemize}
+\item Performs dose calculations in voxelized phantoms
+\item Includes a variety of source models (e.g. a BEAMnrc shared library)
+\item Includes time-synchronized capabilities
+\item Written in MORTRAN3
+\end{itemize}
+
+Documentation: \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs794-dosxyznrc.pdf}{PIRS-794}
+
+Source code: \Verb+$HEN_HOUSE/user_codes/dosxyznrc+
+
+Global variables: \Verb+$HEN_HOUSE/user_codes/dosxyznrc/dosxyznrc_user_macros.mortran+
+
+GUI (launch with \Verb+wish+): \Verb+$HEN_HOUSE/omega/progs/gui/dosxyznrc/dosxyznrc_gui.tcl+
+
+\clearpage
+\subsection{The RZ applications (cylindrical symmetry)}
+These applications are based on cylindrically symmetric geometries and are
+written in \Verb+MORTRAN3+. There is a dedicated GUI to compile these
+applications and write / edit input files.
+
+Documentation: \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs702-egsnrc-codes.pdf}{PIRS-702}
+
+GUI documentation: \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs801-egsinprz.pdf}{PIRS-801}
+
+Source code: \Verb+$HEN_HOUSE/user_codes+
+
+GUI: \Verb+$HEN_HOUSE/gui/egs_inprz+
+
+\subsubsection{DOSRZnrc}
+\begin{itemize}
+\item Dose and kerma calculations
+\end{itemize}
+\subsubsection{CAVRZnrc}
+\begin{itemize}
+\item Calculates ionization chamber correction factors and relevant quantities
+\end{itemize}
+\subsubsection{FLURZnrc}
+\begin{itemize}
+\item Particle fluence calculations
+\end{itemize}
+\subsubsection{SPRRZnrc}
+\begin{itemize}
+\item Calculates Spencer-Attix spectrum averaged stopping-power ratios for arbitrary media
+\end{itemize}
+
+\clearpage
+\subsection{The SPH applications (spherical symmetry)}
+These applications are based on spherically symmetric geometries and are
+written in the fortran preprocessor language \,\Verb|MORTRAN3|.
+
+Documentation: \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs702-egsnrc-codes.pdf}{PIRS-702}
+
+Source code: \Verb+$HEN_HOUSE/user_codes+
+
+\subsubsection{CAVSPHnrc}
+\begin{itemize}
+\item Identical to CAVRZnrc but for spherical geometries
+\end{itemize}
+\subsubsection{EDKnrc}
+\begin{itemize}
+\item Calculates energy deposition kernels for photons or electrons forced to interact
+at the centre of a spherical phantom
+\item Also calculates dose distributions in the entire phantom or the dose to specific regions defined as the cavity of a spherical ion chamber
+\end{itemize}
+
+\clearpage
+\subsection{g}
+\begin{itemize}
+\item Calculates the energy fraction lost to radiation when electrons slow down (if the incident beam is photons), or the radiative yield (if the incident beam is electrons)
+\item Calculates quantities such as mu\_tr, mu\_en and g-bar (the average fraction of energy lost to radiation needed for the calculation of mu\_en)
+\item Written in \Verb+MORTRAN3+
+\end{itemize}
+
+Source code: \Verb+$HEN_HOUSE/user_codes/g+
+
+\subsection{egs\_chamber}
+\begin{itemize}
+\item Calculates dose and energy deposited in regions/media
+\item Optimized for ionization chamber calculations
+\item Many relevant variance reduction techniques
+\item Written in c++ (egs++ application)
+\end{itemize}
+
+Documentation: \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs898/egs\_chamber.html}{PIRS-898/egs\_chamber}
+
+Source code: \Verb+$HEN_HOUSE/user_codes/egs_chamber+
+
+\subsection{egs\_cbct}
+\begin{itemize}
+\item Main goal is the fast estimation of the scatter contribution to an ideal detector in a cone-beam CT (CBCT) setup by means of sophisticated variance reduction techniques and a smoothing algorithm
+\item Can also be used for estimating the total signal to the detector and its individual components: transmitted and scattered
+\item Initially designed for the purpose of simulating a CBCT setup, but can be equally used for modelling conventional CT scanner setups
+\item Written in c++ (egs++ application)
+\end{itemize}
+
+Documentation: \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs898/egs\_cbct.html}{PIRS-898/egs\_cbct}
+
+Source code: \Verb+$HEN_HOUSE/user_codes/egs_cbct+
+
+\subsection{egs\_fac}
+\begin{itemize}
+\item Designed for the purpose of calculating free air chamber (FAC) correction factors
+\item Written in c++ (egs++ application)
+\end{itemize}
+
+Documentation: \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs898/egs\_fac.html}{PIRS-898/egs\_fac}
+
+Source code: \Verb+$HEN_HOUSE/user_codes/egs_fac+
+
+\subsection{cavity}
+\begin{itemize}
+\item Calculates dose in ionization chamber and correction factors
+\item The predecessor of egs\_chamber and egs\_fac
+\item Written in c++ (egs++ application)
+\end{itemize}
+
+Documentation: \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs898/cavity.html}{PIRS-898/cavity}
+
+Source code: \Verb+$HEN_HOUSE/user_codes/cavity+
+
+\subsection{Tutorials (the tutor codes)}
+\begin{itemize}
+\item Many tutorial applications are distributed, written both in \Verb+MORTRAN3+ and c++
+\item The codes are heavily documented and intended to teach the user how to write EGSnrc applications
+\end{itemize}
+
+Source code: \Verb+$HEN_HOUSE/user_codes+
+
 
 \clearpage
 \section{Getting dirty: writing your first EGSnrc application}
@@ -384,15 +568,15 @@ Create a new file named \,\Verb|slab.egsinp|\, in the application directory,
 
     # Defining media in the input file like this is called "pegsless" mode
 
-    ### Cutoff energies
-    ae  = 0.521
-    ap  = 0.010
-    ue  = 50.511
-    up  = 50
+    ### Cutoff energies, in MeV
+    ae  = 0.521             # lowest  energy for electrons (kinetic+0.511)
+    ap  = 0.01              # lowest  energy for photons   (kinetic)
+    ue  = 50.511            # maximum energy for electrons (kinetic+0.511)
+    up  = 50                # maximum energy for photons   (kinetic)
 
     ### Tantalum
-    :start tantalum:
-        density correction file = tantalum
+    :start tantalum: # this name can be anything
+        density correction file = tantalum # name the file (no ext.)
     :stop tantalum:
 
     ### Lead
@@ -560,7 +744,7 @@ instead of the command line.
 \begin{enumerate}
 \item Open \,\Verb|egs_gui|\,, the GUI for compiling and executing any EGSnrc application.
 \item Notice that the \,\Verb|Compile|\, tab is selected by default. Use the selection box in the bottom left of the GUI, and select \,\Verb|myapp|.
-\item Click the \,\Verb|Go|\, button. It will take some time to compile. If you see \,\Verb|ExitCode = 0|\, in the output, the application has compiled successfully! If you are \textit{recompling} an application, make sure to \,\Verb|clean|\, first.
+\item Click the \,\Verb|Go|\, button. It will take some time to compile. If you see \,\Verb|ExitCode = 0|\, in the output, the application has compiled successfully! If you are \textit{recompiling} an application, make sure to \,\Verb|clean|\, first.
 \item Switch to the \,\Verb|Execute|\, tab.
 \item In the \,\Verb|PEGS file|\, section, check the \,\Verb|pegsless|\, checkbox. This means media are defined in the input file.
 \item In the \,\Verb|Input file|\, section, click the \,\Verb|...|\, button, and
@@ -772,7 +956,7 @@ media that may (or may not) be used by geometries.
 \item What is happening to the electrons hitting the lead plate\,?
 
 \begin{answer}
-The electrons are either absorbed in the lead or back-scattered
+The electrons are either absorbed in the lead or backscattered
 in the $\,\,-z$ direction.
 \end{answer}
 
@@ -782,7 +966,7 @@ in the $\,\,-z$ direction.
 Yes, indeed. The energy deposited in the lead plate by 100~keV electrons
 is found to be ($0.058803 \pm 0.709$\%)~MeV per incident electron. So on
 average only 60\% of the incident energy is deposited in the lead plate,
-owing to the significant back-scatter.
+owing to the significant backscatter.
 \end{answer}
 
 \item What is the file size of \,\Verb|slab.ptracks|\, on disk\,?
@@ -1885,7 +2069,12 @@ simulation geometry = chamber_in_water_in_air
 Add media definitions to the input file (pegsless mode). Assign the same names
 that we used to media in the geometry (air, c552, water), and set the density
 correction files appropriately. The full set of density correction files
-can be found in \,\Verb|$HEN_HOUSE/pegs4/density_corrections/|.
+distributed with EGSnrc
+can be found in \,\Verb|$HEN_HOUSE/pegs4/density_corrections/|. If the
+density correction file you are using resides in that directory, or in
+\,\Verb|$EGS_HOME/pegs4/density_corrections/|, then the `.density` extension
+can be omitted. To use a density correction file located elsewhere, type
+the full path and file extension.
 
 The big benefit of this style of media definition is the ability to set
 \,\Verb|AE|\, and \,\Verb|AP|\, in the input file. Previously it was necessary
@@ -1905,7 +2094,10 @@ to generate a new pegs4 data file each time these parameters were changed
     ue  = 50.511            # maximum energy for electrons (kinetic+0.511)
     up  = 50                # maximum energy for photons   (kinetic)
 
+    # I chose the name 'air', use something easy to type
     :start air:
+        # .density extension omitted for density correction files located in
+        # $HEN_HOUSE/pegs4/density_corrections or $EGS_HOME/pegs4/density_corrections
         density correction file    = air_dry_nearsealevel
     :stop air:
 
@@ -2188,7 +2380,7 @@ outside the chamber.
 
 \clearpage
 \section{Linear accelerator simulations}
-The BEAMnrc application has long been the work horse of linear accelerator (LINAC) simulations for EGSnrc. This is the star of many clinical groups who have designed radiotherapy modelling systems around EGSnrc. In such situations BEAMnrc is typically coupled with a second application to perform voxelized transport (e.g. patient modelling), like DOSXYZnrc, vmc++ or any egs++ application.
+The BEAMnrc application has long been the workhorse for linear accelerator (LINAC) simulations using EGSnrc. It has been used by many clinical groups to build radiotherapy modelling systems. In such situations BEAMnrc is typically coupled with a second application to perform voxelized transport (e.g. patient modelling), like DOSXYZnrc, vmc++ or any egs++ application.
 
 BEAMnrc is distributed with a powerful GUI that enables the user to easily create new accelerators, compile them, design input files and run simulations. It requires the tcl/tk packages to be installed, as mentioned in the installation instructions. To launch the GUI, either find the shortcut on your desktop or in a linux terminal type:
 
@@ -2202,16 +2394,16 @@ In the BEAMnrc GUI, click \,\Verb|File -> Specify a new accelerator| (figure \re
 \begin{figure}
 \begin{center}
 \includegraphics[width=5in]{figures/beamnrc_specifyNew}
-\label{fig:beamnrc_specifyNew}
 \caption{BEAMnrc: Creating a new accelerator}
+\label{fig:beamnrc_specifyNew}
 \end{center}
 \end{figure}
 
 \begin{figure}
 \begin{center}
 \includegraphics[width=4in]{figures/beamnrc_specifyNew2}
-\label{fig:beamnrc_specifyNew2}
 \caption{BEAMnrc: Selecting components}
+\label{fig:beamnrc_specifyNew2}
 \end{center}
 \end{figure}
 
@@ -2220,8 +2412,8 @@ Save the accelerator module file as \,\Verb|syncjaws.module|\, - this will provi
 \begin{figure}
 \begin{center}
 \includegraphics[width=4in]{figures/beamnrc_specifyNew3}
-\label{fig:beamnrc_specifyNew3}
 \caption{BEAMnrc: Selecting materials}
+\label{fig:beamnrc_specifyNew3}
 \end{center}
 \end{figure}
 
@@ -2230,8 +2422,8 @@ Compile the accelerator! In the main BEAMnrc GUI window, go to \,\Verb|Execute -
 \begin{figure}
 \begin{center}
 \includegraphics[width=5in]{figures/beamnrc_compile}
-\label{fig:beamnrc_compile}
 \caption{BEAMnrc: Compiling an accelerator}
+\label{fig:beamnrc_compile}
 \end{center}
 \end{figure}
 
@@ -2240,44 +2432,46 @@ Now you are ready to start editing a new input file. To do this, click on \,\Ver
 \begin{figure}
 \begin{center}
 \includegraphics[width=6in]{figures/beamnrc_main}
-\label{fig:beamnrc_mainInputs}
 \caption{BEAMnrc: Main input parameters}
+\label{fig:beamnrc_mainInputs}
 \end{center}
 \end{figure}
 
 \begin{figure}
 \begin{center}
 \includegraphics[width=5in]{figures/beamnrc_source1}
-\label{fig:beamnrc_source1}
 \caption{BEAMnrc: Source 1 options}
+\label{fig:beamnrc_source1}
 \end{center}
 \end{figure}
 
 \begin{figure}
 \begin{center}
 \includegraphics[width=3in]{figures/beamnrc_scoring}
-\label{fig:beamnrc_scoring}
 \caption{BEAMnrc: Scoring options}
+\label{fig:beamnrc_scoring}
 \end{center}
 \end{figure}
 
 Close the main input parameters, and instead click the \,\Verb|Edit...|\, button next to \,\Verb|SYNCJAWS|\, to edit the input parameters for the jaws. Enter the parameters suggested in figure \ref{fig:beamnrc_syncjaws}, clicking the \,\Verb|Define jaw orientation/media|\, button to fill out the jaw settings. Set the \,\Verb|ECUT|\, and \,\Verb|PCUT|\, of the jaw material to 10~MeV. This is an approximation, but will greatly speed up the simulation for demonstration purposes.
 
-For now, leave \,\Verb|File containing jaw opening data:|\, empty. We are setting up the component module (CM) for dynamic mode - motion of the jaws that can be synchronized with other components. Now would be a good time to save our progress (\,\Verb|File -> Save input parameters as...|\,) giving the file a name like \,\Verb|example.egsinp|\,.
+For now, leave \,\Verb|File containing jaw opening data:|\, empty. We are setting up the component module (CM) for dynamic mode - motion of the jaws that can be synchronized with other components. Now would be a good time to save our progress
+(\Verb|File -> Save input parameters as...|) giving the file a name like
+\,\Verb|example.egsinp|\,.
 
 \begin{figure}
 \begin{center}
 \includegraphics[width=5in]{figures/beamnrc_syncjaws}
-\label{fig:beamnrc_syncjaws}
 \caption{BEAMnrc: Syncjaws definition}
+\label{fig:beamnrc_syncjaws}
 \end{center}
 \end{figure}
 
-Create a new text file, that will provide the dynamic motion of the jaws. There are examples for all of the syncronized CMs in \,\Verb|$HEN_HOUSE/omega/beamnrc/CMs/sample_sequences/|. Copy the text below and save the file as \,\Verb|example.sequence|\, in \,\Verb|$EGS_HOME/BEAM_syncjaws|\,. Now go back to the settings of the SYNCJAWS CM, click the \,\Verb|Browse|\, button and select the file (make sure the mode is set to \,\Verb|Dynamic|\,). Click \,\Verb|Preview|\, to view the first position of the jaws, before motion begins.
+Create a new text file, that will provide the dynamic motion of the jaws. There are examples for all of the syncronized CMs in \,\Verb|$HEN_HOUSE/omega/beamnrc/CMs/sample_sequences/|. Copy the text at the end of this section and save the file as \,\Verb|example.sequence|\, in \,\Verb|$EGS_HOME/BEAM_syncjaws|\,. Now go back to the settings of the SYNCJAWS CM, click the \,\Verb|Browse|\, button and select the file (make sure the mode is set to \,\Verb|Dynamic|\,). Click \,\Verb|Preview|\, to view the first position of the jaws, before motion begins.
 
-The format of the sequence file is described in section 15.3.8 of the BEAMnrc Users Manual (\href{https://nrc-cnrc.github.io/EGSnrc/doc/pirs509a-beamnrc.pdf}{PIRS509a}). Using this file, it is possible to model motion like jaw tracking, based on the the \textit{index} parameter (i.e. fractional MU or cumulative meterset weight). If multiple SYNC CMs are included, the index is used to synchronize motion. Use a repeated index to perform motion with the beam off.
+The format of the sequence file is described in section 15.3.8 of the BEAMnrc Users Manual (\href{https://nrc-cnrc.github.io/EGSnrc/doc/pirs509a-beamnrc.pdf}{PIRS509a}). Using this file, it is possible to model motion like jaw tracking, based on the the \textit{index} parameter (i.e. fractional MU or cumulative meterset weight). If multiple SYNC CMs are included, the index is used to synchronize motion. Use a repeated index to simulate motion with the beam off.
 
-In the following, we define 2 static fields and 1 dynamic field in 6 steps. The upper y-jaws are at $40 \le z \le 50$ and x-jaws at $51 \le z \le 61$. From index 0.0 to 3.0 (30\% of the simulation), the jaws are statically positioned. Similarly from 0.3 to 0.6. The repeated indices allow for shifts of the collimators with the beam off. Finally, from index 0.6 to 1.0 (40\%) there is a motion of the x-jaws from a nearly-closed position to a $2 \times 2$ opening.
+In the following, we define 2 static fields and 1 dynamic field in 6 steps. The upper y-jaws are at $40 \le z \le 50$ and x-jaws at $51 \le z \le 61$. From index 0.0 to 3.0 (30\% of the simulation), the jaws are statically positioned. Similarly from 0.3 to 0.6. The repeated indices, 0.3 and 0.6, result in simulated collimator shifts while the beam is off. Finally, from index 0.6 to 1.0 (40\%) there is a motion of the x-jaws from a nearly-closed position to a $2 \times 2$ opening.
 
 {\scriptsize
 \begin{lstlisting}[language={},backgroundcolor=\color{white}]
@@ -2315,29 +2509,29 @@ Let's do a sanity check on the output of the BEAMnrc simulation by analyzing the
 $ beamdp_gui
 \end{lstlisting}
 
-Perform a scatter plot of the phase-space to observe how the jaws have collimated the source. Suggested settings are shown in figure \ref{fig:beamdp_step2}, and the results in figure \ref{fig:beamdp_step3}. As expected, there are two off-axis fields, and one in the centre. Since the phase-space is scored immediately below the second set of jaws, it is easy to confirm that the field openings appear to match the collimator openings that were specified.
+Perform a scatter plot of the phase-space to observe how the jaws have collimated the source (figure \ref{fig:beamdp_step1}). Suggested settings are shown in figure \ref{fig:beamdp_step2}, and the results in figure \ref{fig:beamdp_step3}. As expected, there are two off-axis fields, and one in the centre. Since the phase-space is scored immediately below the second set of jaws, it is easy to confirm that the field openings appear to match the collimator openings that were specified.
 
 \begin{figure}
 \begin{center}
 \includegraphics[width=5in]{figures/beamdp_step1}
-\label{fig:beamdp_step1}
 \caption{BEAMDP: Mode selection}
+\label{fig:beamdp_step1}
 \end{center}
 \end{figure}
 
 \begin{figure}
 \begin{center}
 \includegraphics[width=5in]{figures/beamdp_step2}
-\label{fig:beamdp_step2}
 \caption{BEAMDP: Plotting options}
+\label{fig:beamdp_step2}
 \end{center}
 \end{figure}
 
 \begin{figure}
 \begin{center}
 \includegraphics[width=3in]{figures/beamdp_step3}
-\label{fig:beamdp_step3}
 \caption{BEAMDP: Example scatter plot}
+\label{fig:beamdp_step3}
 \end{center}
 \end{figure}
 
@@ -2389,8 +2583,8 @@ $ dosxyznrc_gui
 \begin{figure}
 \begin{center}
 \includegraphics[width=4in]{figures/dosxyz_step1}
-\label{fig:dosxyz_step1}
 \caption{DOSXYZnrc: Start a new input file}
+\label{fig:dosxyz_step1}
 \end{center}
 \end{figure}
 
@@ -2399,16 +2593,16 @@ Set the input parameters as shown in figure \ref{fig:dosxyz_step2}. Select sourc
 \begin{figure}
 \begin{center}
 \includegraphics[width=5in]{figures/dosxyz_step2}
-\label{fig:dosxyz_step2}
 \caption{DOSXYZnrc: Set the main input parameters}
+\label{fig:dosxyz_step2}
 \end{center}
 \end{figure}
 
 \begin{figure}
 \begin{center}
 \includegraphics[width=5in]{figures/dosxyz_step3}
-\label{fig:dosxyz_step3}
 \caption{DOSXYZnrc: Set the synchronized source input parameters}
+\label{fig:dosxyz_step3}
 \end{center}
 \end{figure}
 
@@ -2418,14 +2612,14 @@ Run the simulation! The output file of interest is the \,\Verb|example.3ddose|\,
 
 \begin{lstlisting}
 $ cd $EGS_HOME/dosxyznrc
-$ dosxyz_show example.3ddose slice_files.egsphant
+$ dosxyz_show slice_files.egsphant example.3ddose
 \end{lstlisting}
 
 \begin{figure}
 \begin{center}
 \includegraphics[width=5in]{figures/dosxyz_show}
-\label{fig:dosxyz_show}
 \caption{dosxyz\_show: View the dose distribution}
+\label{fig:dosxyz_show}
 \end{center}
 \end{figure}
 
@@ -2433,17 +2627,18 @@ $ dosxyz_show example.3ddose slice_files.egsphant
 \subsection{Extract dose profiles from 3ddose}
 It is commonly of interest to obtain profile and depth-dose curves from dose files. For the 3ddose format, there is a tool distributed with EGSnrc that can do this called \,\Verb|statdose|\, (though many users design their own analysis software).
 
-First, it may be necessary to adjust the \,\Verb|statdose|\, maximum array dimensions. Navigate to \,\Verb|$HEN_HOUSE/omega/progs/statdose|\, and open \,\Verb|statdose.mortran|\,. Change the \,\Verb|$MAXVOX|\, values to 300. The save the file and recompile \,\Verb|statdose|\, (\,\Verb|make clean; make|\,).
+First, it may be necessary to adjust the \,\Verb|statdose|\, maximum array dimensions. Navigate to \,\Verb|$HEN_HOUSE/omega/progs/statdose|\, and open \,\Verb|statdose.mortran|\,. Change the \,\Verb|$MAXVOX|\, values to 300. The \,\Verb|$MAXVOXEL|\, parameter should be set to the maximum value of \,\Verb|$MAXVOXX|, \,\Verb|$MAXVOXY| and \,\Verb|$MAXVOXZ|. The save the file and recompile \,\Verb|statdose|\, (\,\Verb|make clean; make|\,).
 
 {\scriptsize
 \begin{lstlisting}[language={},backgroundcolor=\color{white}]
 REPLACE {$MAXVOXX} WITH {200};
 REPLACE {$MAXVOXY} WITH {200};
 REPLACE {$MAXVOXZ} WITH {200};
+REPLACE {$MAXVOXEL} WITH {200};
 \end{lstlisting}
 }
 
-The \,\Verb|statdose|\, code does not have a GUI, so must be run from the command line. Navigate to \,\Verb|$EGS_HOME/dosxyznrc|\,, and type \,\Verb|statdose|\, to launch the program. This software uses text input - an example out both the output and input is shown below. Start with \,\Verb|Selection: 1|\, to read in dose distributions. In our directory we had 9 \,\Verb|*.3ddose|\, files listed, but you will probably just have one to choose. The number to the left of \,\Verb|example|\, is the file number to select (7 for us). Assign this file an internal reference number (use 1).
+The \,\Verb|statdose|\, code does not have a GUI, so must be run from the command line. Navigate to \,\Verb|$EGS_HOME/dosxyznrc|\,, and type \,\Verb|statdose|\, to launch the program. This software uses text input - an example of both the output and input is shown below. Start with \,\Verb|Selection: 1|\, to read in dose distributions. In our directory we had 9 \,\Verb|*.3ddose|\, files listed, but you will probably just have one to choose. The number to the left of \,\Verb|example|\, is the file number to select (7 for us). Assign this file an internal reference number (use 1).
 
 {\scriptsize
 \begin{lstlisting}[language={},backgroundcolor=\color{white}]
@@ -2551,186 +2746,6 @@ $ xmgrace example.agr
 \end{lstlisting}
 
 \clearpage
-\section{EGSnrc overview: the applications}
-\label{apps}
-
-\addtocontents{toc}{\protect\setcounter{tocdepth}{3}}
-% From this point on, only show up to \subsubsection in the ToC
-
-\begin{itemize}
-\item EGSnrc is a collection of generic routines that simulate the transport
-and interactions of photons, electrons and positrons in matter.
-\item The majority of users do not write their own applications - the codes distributed
-with EGSnrc are useful for a wide range of calculations.
-\item Users can write their own applications that take advantage of the EGSnrc
-system, or \textit{toolkit}, by writing a program which specifies their
-particular problem in the \Verb+MAIN+ program and communicates with EGSnrc
-through the user-supplied routines \Verb+AUSGAB+, \Verb+HOWFAR+ and \Verb+HOWNEAR+
-and the EGSnrc routines \Verb+HATCH+ and \Verb+SHOWER+.
-\item In principle, applications can be written in any programming language as
-long as it can interface with the Fortran EGSnrc code-base.
-\item Most commonly, applications are written in \Verb+MORTRAN3+ (native EGSnrc
-language) or C++, although they could also be written in \Verb+FORTRAN+ or C.
-\end{itemize}
-
-\begin{center}
-\includegraphics[height=340pt]{figures/egsApplications}
-\end{center}
-
-EGSnrc source code: \Verb+$HEN_HOUSE/src/egsnrc.mortran+
-
-EGSnrc global variables: \Verb+$HEN_HOUSE/src/egsnrc.macros+
-
-GUI: \Verb+~/EGSnrc/HEN_HOUSE/gui/egs_gui+
-
-\subsection{BEAMnrc}
-\begin{itemize}
-\item Ideal for linear accelerator modelling and x-ray systems
-\item Includes geometries (called component modules) that can easily represent flattening filters, collimators, MLCs, etc.
-\item Accelerators can be compiled as shared libraries to be used as a particle source for other applications
-\item Includes time-synchronized capabilities (e.g. dynamic jaws and MLCs)
-\item Written in MORTRAN3
-\end{itemize}
-
-Documentation: \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs509a-beamnrc.pdf}{PIRS-509a}
-
-Source code: \Verb+$HEN_HOUSE/omega/beamnrc+
-
-Global variables: \Verb+$HEN_HOUSE/omega/beamnrc/beamnrc_user_macros.mortran+
-
-GUI (launch with \Verb+wish+): \Verb+$HEN_HOUSE/omega/progs/gui/beamnrc/beamnrc_gui.tcl+
-
-\subsection{DOSXYZnrc}
-\begin{itemize}
-\item Performs dose calculations in voxelized phantoms
-\item Includes a variety of source models (e.g. a BEAMnrc shared library)
-\item Includes time-synchronized capabilities
-\item Written in MORTRAN3
-\end{itemize}
-
-Documentation: \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs794-dosxyznrc.pdf}{PIRS-794}
-
-Source code: \Verb+$HEN_HOUSE/user_codes/dosxyznrc+
-
-Global variables: \Verb+$HEN_HOUSE/user_codes/dosxyznrc/dosxyznrc_user_macros.mortran+
-
-GUI (launch with \Verb+wish+): \Verb+$HEN_HOUSE/omega/progs/gui/dosxyznrc/dosxyznrc_gui.tcl+
-
-\clearpage
-\subsection{The RZ applications (cylindrical symmetry)}
-These applications are based on cylindrically symmetric geometries and are
-written in \Verb+MORTRAN3+. There is a dedicated GUI to compile these
-applications and write / edit input files.
-
-Documentation: \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs702-egsnrc-codes.pdf}{PIRS-702}
-
-GUI documentation: \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs801-egsinprz.pdf}{PIRS-801}
-
-Source code: \Verb+$HEN_HOUSE/user_codes+
-
-GUI: \Verb+$HEN_HOUSE/gui/egs_inprz+
-
-\subsubsection{DOSRZnrc}
-\begin{itemize}
-\item Dose and kerma calculations
-\end{itemize}
-\subsubsection{CAVRZnrc}
-\begin{itemize}
-\item Calculates ionization chamber correction factors and relevant quantities
-\end{itemize}
-\subsubsection{FLURZnrc}
-\begin{itemize}
-\item Particle fluence calculations
-\end{itemize}
-\subsubsection{SPRRZnrc}
-\begin{itemize}
-\item Calculates Spencer-Attix spectrum averaged stopping-power ratios for arbitrary media
-\end{itemize}
-
-\clearpage
-\subsection{The SPH applications (spherical symmetry)}
-These applications are based on spherically symmetric geometries and are
-written in the fortran preprocessor language \,\Verb|MORTRAN3|.
-
-Documentation: \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs702-egsnrc-codes.pdf}{PIRS-702}
-
-Source code: \Verb+$HEN_HOUSE/user_codes+
-
-\subsubsection{CAVSPHnrc}
-\begin{itemize}
-\item Identical to CAVRZnrc but for spherical geometries
-\end{itemize}
-\subsubsection{EDKnrc}
-\begin{itemize}
-\item Calculates energy deposition kernels for photons or electrons forced to interact
-at the centre of a spherical phantom
-\item Also calculates dose distributions in the entire phantom or the dose to specific regions defined as the cavity of a spherical ion chamber
-\end{itemize}
-
-\clearpage
-\subsection{g}
-\begin{itemize}
-\item Calculates the energy fraction lost to radiation when electrons slow down (if the incident beam is photons), or the radiative yield (if the incident beam is electrons)
-\item Calculates quantities such as mu\_tr, mu\_en and g-bar (the average fraction of energy lost to radiation needed for the calculation of mu\_en)
-\item Written in \Verb+MORTRAN3+
-\end{itemize}
-
-Source code: \Verb+$HEN_HOUSE/user_codes/g+
-
-\subsection{egs\_chamber}
-\begin{itemize}
-\item Calculates dose and energy deposited in regions/media
-\item Optimized for ionization chamber calculations
-\item Many relevant variance reduction techniques
-\item Written in c++ (egs++ application)
-\end{itemize}
-
-Documentation: \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs898/egs\_chamber.html}{PIRS-898/egs\_chamber}
-
-Source code: \Verb+$HEN_HOUSE/user_codes/egs_chamber+
-
-\subsection{egs\_cbct}
-\begin{itemize}
-\item Main goal is the fast estimation of the scatter contribution to an ideal detector in a cone-beam CT (CBCT) setup by means of sophisticated variance reduction techniques and a smoothing algorithm
-\item Can also be used for estimating the total signal to the detector and its individual components: transmitted and scattered
-\item Initially designed for the purpose of simulating a CBCT setup, but can be equally used for modelling conventional CT scanner setups
-\item Written in c++ (egs++ application)
-\end{itemize}
-
-Documentation: \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs898/egs\_cbct.html}{PIRS-898/egs\_cbct}
-
-Source code: \Verb+$HEN_HOUSE/user_codes/egs_cbct+
-
-\subsection{egs\_fac}
-\begin{itemize}
-\item Designed for the purpose of calculating free air chamber (FAC) correction factors
-\item Written in c++ (egs++ application)
-\end{itemize}
-
-Documentation: \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs898/egs\_fac.html}{PIRS-898/egs\_fac}
-
-Source code: \Verb+$HEN_HOUSE/user_codes/egs_fac+
-
-\subsection{cavity}
-\begin{itemize}
-\item Calculates dose in ionization chamber and correction factors
-\item The predecessor of egs\_chamber and egs\_fac
-\item Written in c++ (egs++ application)
-\end{itemize}
-
-Documentation: \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs898/cavity.html}{PIRS-898/cavity}
-
-Source code: \Verb+$HEN_HOUSE/user_codes/cavity+
-
-\subsection{Tutorials (the tutor codes)}
-\begin{itemize}
-\item Many tutorial applications are distributed, written both in \Verb+MORTRAN3+ and c++
-\item The codes are heavily documented and intended to teach the user how to write EGSnrc applications
-\end{itemize}
-
-Source code: \Verb+$HEN_HOUSE/user_codes+
-
-\clearpage
 \section{Online resources}
 
 \subsection{EGSnrc on github}
@@ -2817,11 +2832,59 @@ Some additional steps are required to compile the documentation locally.
 \subsection{The \$HEN\_HOUSE}
 The \Verb+$HEN_HOUSE+ directory contains all source code and data files for the
 EGSnrc system. After installation, the contents of this directory generally remain unchanged.
-\begin{center}
-\includegraphics[width=5.5in]{figures/egs_file_structure_with_egspp}
-\end{center}
 
-Material data distributed with EGSnrc is contained in the \Verb+pegs4+ directory. The density correction files for \Verb+pegsless+ mode are found in \Verb+pegs4/density_corrections+ and the commonly used \Verb+521icru+ and \Verb+700icru+ pegs4 material data files are in \Verb+pegs4/data+.
+\begin{table}[h]
+\caption{The folder structure and contents of the HEN\_HOUSE.}
+\begin{center}
+\begin{tabular}{|p{0.2\linewidth}|p{0.15\linewidth}|p{0.6\linewidth}|}
+\hline
+% headers
+Category & Folder & Description \\ \hhline{|===|}
+
+% mortran & tcl code
+\multirow{9}{*}{EGSnrc core} & \multirow{4}{*}{omega} & - BEAMnrc source code\\
+    & & - addphsp, beamdp, ctcreate, dosxyz\_show, readphsp, and statdose \\
+    & & - tcl GUIs for beamdp, BEAMnrc and DOSXYZnrc \\ \hhline{|~|-|-|}
+    & \multirow{2}{*}{previewRZ} & - tcl GUI for viewing geometries from DOSRZnrc, CAVRZnrc, FLURZnrc and SPRRZnrc \\ \hhline{|~|-|-|}
+    & src & - EGSnrc core MORTRAN source code \\ \hhline{|~|-|-|}
+    & user\_codes & - Application source code (C++ and MORTRAN) \\ \hhline{|~|-|-|}
+    & utils & - Various MORTRAN tools \\ \hhline{|===|}
+
+% c++ & qt code
+\multirow{6}{*}{egs++ and Qt} & cutils & - C tools for parallel jobs and BEAMnrc sources \\ \hhline{|~|-|-|}
+    & egs++ & - C++ class library \\ \hhline{|~|-|-|}
+    & & - ausgab objects, geometries and sources \\ \hhline{|~|-|-|}
+    & gui & - Qt GUIs: egs\_configure, egs\_gui and egs\_inprz \\ \hhline{|~|-|-|}
+    & iaea\_phsp & - C++ tools for IAEA phase-spaces \\ \hhline{|~|-|-|}
+    & interface & - The code that connects C++ and MORTRAN \\ \hhline{|===|}
+
+% data
+\multirow{9}{*}{data} & \multirow{4}{*}{data} & - photon cross section data \\
+    & & - bremsstrahlung cross section corrections \\
+    & & - eii cross sections \\
+    & & - molecular form factors \\ \hhline{|~|-|-|}
+    & \multirow{3}{*}{pegs4} & - PEGS4 mortran code \\
+    & & - PEGS4 data files \\
+    & & - density correction files \\ \hhline{|~|-|-|}
+    & \multirow{2}{*}{spectra} & - various energy spectrum data \\
+    & & - radionuclide decay data \\ \hhline{|===|}
+
+% installation & supporting code
+\multirow{5}{*}{configuration} & makefiles & - template application makefiles \\ \hhline{|~|-|-|}
+    & mortran3 & - the MORTRAN core code \\ \hhline{|~|-|-|}
+    & pieces & - system test code \\ \hhline{|~|-|-|}
+    & scripts & - configuration and support scripts \\ \hhline{|~|-|-|}
+    & specs & - configuration specifications \\ \hhline{|===|}
+
+% documentation
+documentation & docs & - documentation source code \\ \hhline{|===|}
+
+
+\end{tabular}
+\end{center}
+\end{table}
+
+Medium composition, electron stopping powers, and electron interaction cross sections, for media including with the EGSnrc distribution are contained in the \Verb+pegs4+ directory. The density correction files for \Verb+pegsless+ mode are found in \Verb+pegs4/density_corrections+ and the commonly used \Verb+521icru+ and \Verb+700icru+ pegs4 material data files are in \Verb+pegs4/data+.
 
 There are a few example energy spectrum files contained in \Verb+spectra/egsnrc+. Radionuclide decay data in ensdf format for the egs++ radionuclide source are found in \Verb+spectra/lnhb+.
 
@@ -2841,12 +2904,12 @@ The configure script does not create the \Verb+$EGS_HOME+ directory, unless you 
 
 It is possible to have EGSnrc configured for execution on several servers, but sharing the same installation. This means that the configuration script is run once on each machine, and set to use a different configuration file (the \Verb+*.conf+ file) each time. To do this, watch for the prompt to set the configuration name and make sure to give it a unique identifier (usually the default is \Verb+linux.conf+). On each server, the \Verb+$EGS_CONFIG+ environment variable must be set uniquely, and should point to the main configuration file created by the installation script (but type it in as an absolute path, don't use environment variables):
 
-\Verb+$HEN_HOUSE/specs/$my_machine.conf+
+\Verb+/full_path_to/HEN_HOUSE/specs/your_machine.conf+
 
-On linux systems, the \Verb+$HEN_HOUSE+ and \Verb+$my_machine+ environment variables are actually extracted and automatically set \textit{using} the \Verb+$EGS_CONFIG+ environment variable that you provide.
+On linux systems, the \Verb+$HEN_HOUSE+ and \Verb+$my_machine+ environment variables are automatically set using the \Verb+$EGS_CONFIG+ environment variable that you provide.
 
 \subsection{The \$EGS\_HOME}
-The \Verb+$EGS_HOME+ directory contains all of the applications and data created or provided by the user. Each application (previously called a \Verb+user_code+) has its own directory which contains the source code, a Makefile, and the user's input files. Output files from simulations are also produced in the application directories.
+The \Verb+$EGS_HOME+ directory contains all of the applications and data created or provided by the user. Each application (previously called a \Verb+user_code+) has its own directory which contains the source code, a Makefile, and the user's input files. Output files from simulations are also written to the application directories.
 
 The user may store their own set of material data in \Verb+$EGS_HOME/pegs4+, which will automatically supplement the data that is available in \Verb+$HEN_HOUSE/pegs4+.
 
