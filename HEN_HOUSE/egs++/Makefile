@@ -202,7 +202,7 @@ clean:
 	$(REMOVE) $(egspp_objects) $(DSO1)test.exe
 
 realclean:
-	$(REMOVE) $(egspp_objects) $(lib_objects) $(DSO1)test.exe
+	$(REMOVE) $(egspp_objects) $(lib_objects) $(DSO1)egspp.$(obje) $(DSO1)test.exe
 	$(REMOVE) $(DSO1)egs_envelope_geometry.$(obje) $(DSO1)egs_stack_geometry.$(obje) $(DSO1)egs_union_geometry.$(obje) $(DSO1)egs_angular_spread_source.$(obje)
 
 .PHONY: libs $(all_libs) clean realclean
