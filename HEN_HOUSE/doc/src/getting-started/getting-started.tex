@@ -51,6 +51,7 @@
 \newcommand{\eg}{{\em e.g.}}
 \newcommand{\ie}{{\em i.e.}}
 
+\usepackage{float}
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{html}
@@ -154,6 +155,9 @@
 % answer
 \newenvironment{answer}{\normalfont}{\relax}
 
+% scientific notation shorthand
+\providecommand{\e}[1]{\ensuremath{\times 10^{#1}}}
+
 % ====================================
 
 \begin{document}
@@ -214,7 +218,7 @@ Ottawa\\
 {\bf Abstract}
 \end{Large}
 \end{center}
-This manual is a ``quick start'' guide to help new users get familiar with EGSnrc. A number of complete tutorials are presented along with general guidance intended both for new users and for those looking to update their EGSnrc skills. It is suggested that the reader follows the document from top to bottom, as concepts are introduced gradually and though applied examples. The expected outcome is to provide the reader with some practical skills, along with a broader understanding of the capabilities of EGSnrc and the included tools. However, the information provided here is not complete: it will be necessary to refer to the relevant manuals for full technical descriptions.
+This manual is a ``quick start'' guide to help new users get familiar with EGSnrc. A number of complete tutorials are presented along with general guidance intended both for new users and for those looking to update their EGSnrc skills. It is suggested that the reader follows the document from top to bottom, as concepts are introduced gradually and through applied examples. The expected outcome is to provide the reader with some practical skills, along with a broader understanding of the capabilities of EGSnrc and the included tools. However, the information provided here is not complete: it will be necessary to refer to the relevant manuals for full technical descriptions.
 
 \newpage
 \mbox{}	%blank behind title page
@@ -979,7 +983,8 @@ incident particles.
 
 \item Run 20~MeV electrons striking a \Verb|water| plate
 and interpret the results. Is deposited energy consistent with the known
-stopping power value of \,\,2.45~MeV~cm$\mathbf{^2}$\!/g\,\, for 20~MeV
+stopping power value of \\
+\,\,2.45~MeV~cm$\mathbf{^2}$\!/g\,\, for 20~MeV
 electrons in liquid water\,?
 
 \begin{answer}
@@ -1050,7 +1055,7 @@ To get started with egs++ input files, let's work through an example for the \Ve
 
 \subsubsection{Define a cylindrical water phantom}
 
-The first step is to define the geometry, which must be placed between the
+The first step is to define the geometry, which must be placed between the \\
 \Verb+geometry definition+ start and stop delimiters in the input file.
 
 First define a cylinder with axis parallel to the $z\!$-axis and 5~cm radius. All distance units in \Verb+.egsinp+ files are in cm, and energy units in MeV.
@@ -1730,7 +1735,8 @@ C552 plastic.} \end{figure}
 \subsubsection{Model the spherical chamber tip}
 
 Start a new input file for this chamber geometry. Save this input file in
-the \,\Verb|$EGS_HOME/egs_chamber| directory. It is recommended to use the
+the \\
+\,\Verb|$EGS_HOME/egs_chamber| directory. It is recommended to use the
 \,\Verb|egs_chamber| application for ionization chamber simulations due to
 its useful suite of variance reduction parameters. There are a number of
 useful features, found in the \href{http://nrc-cnrc.github.io/EGSnrc/doc/pirs898/egs_chamber.html}{egs\_chamber documentation}.
@@ -2192,7 +2198,8 @@ then multiplying by the density of air. To be consistent with the simulation,
 use the density that is the 3rd value in the air density correction file.
 
 To use the variance reduction technique photon cross-section enhancement, set
-the \,\Verb|enhance regions|\, to all of the chamber regions, and the value of
+the \\
+\,\Verb|enhance regions|\, to all of the chamber regions, and the value of
 \,\Verb|enhancement|\, to $-128$. The negative value of \,\Verb|enhancement|\,
 sets the same value to all of the regions. This will cause photons to interact
 with 128 times higher probability within the chamber, resulting in more
@@ -2272,7 +2279,8 @@ simulation just for track generation. Comment out the tracks ausgab object
 for long simulations.
 
 To list the dose in each of the cavity regions, use the label that was defined
-as \,\Verb|chamber_cavity_label|. Then, for the regions in order of increasing
+as \\
+\,\Verb|chamber_cavity_label|. Then, for the regions in order of increasing
 number, calculate and provide the
 \,\Verb|volume|\, for each region. This is used to calculate dose from the
 energy deposited in each region. If you are only interested in the energy
@@ -2368,7 +2376,7 @@ this different from the total dose to air?
 
 \begin{answer}
 The total dose to the air cavity is the sum of the dose to regions 3, 7 and 31:
-$6.6491e-15 \pm 1.002\%$.
+$6.6491\e{-15} \pm 1.002\%$.
 
 This is smaller than the total dose to air under
 \textit{Summary of media dosimetry}, which includes the dose to air regions
@@ -2427,7 +2435,8 @@ Compile the accelerator! In the main BEAMnrc GUI window, go to \,\Verb|Execute -
 \end{center}
 \end{figure}
 
-Now you are ready to start editing a new input file. To do this, click on \,\Verb|Edit main input parameters|\, in the \,\Verb|Selected components|\, window. Set a title, and change the parameters to match figure \ref{fig:beamnrc_mainInputs}. When selecting source 1, set the parameters as in figure \ref{fig:beamnrc_source1}. For scoring options, set a plane to be scored after the jaws (component 1) as in figure \ref{fig:beamnrc_scoring}.
+Now you are ready to start editing a new input file. To do this, click on \\
+\,\Verb|Edit main input parameters|\, in the \,\Verb|Selected components|\, window. Set a title, and change the parameters to match figure \ref{fig:beamnrc_mainInputs}. When selecting source 1, set the parameters as in figure \ref{fig:beamnrc_source1}. For scoring options, set a plane to be scored after the jaws (component 1) as in figure \ref{fig:beamnrc_scoring}.
 
 \begin{figure}
 \begin{center}
@@ -2455,7 +2464,7 @@ Now you are ready to start editing a new input file. To do this, click on \,\Ver
 
 Close the main input parameters, and instead click the \,\Verb|Edit...|\, button next to \,\Verb|SYNCJAWS|\, to edit the input parameters for the jaws. Enter the parameters suggested in figure \ref{fig:beamnrc_syncjaws}, clicking the \,\Verb|Define jaw orientation/media|\, button to fill out the jaw settings. Set the \,\Verb|ECUT|\, and \,\Verb|PCUT|\, of the jaw material to 10~MeV. This is an approximation, but will greatly speed up the simulation for demonstration purposes.
 
-For now, leave \,\Verb|File containing jaw opening data:|\, empty. We are setting up the component module (CM) for dynamic mode - motion of the jaws that can be synchronized with other components. Now would be a good time to save our progress
+For now, leave \,\Verb|File containing jaw opening data:|\, empty. We are setting up the component module (CM) for dynamic mode - motion of the jaws that can be synchronized with other components. Now would be a good time to save our progress \\
 (\Verb|File -> Save input parameters as...|) giving the file a name like
 \,\Verb|example.egsinp|\,.
 
@@ -2467,7 +2476,8 @@ For now, leave \,\Verb|File containing jaw opening data:|\, empty. We are settin
 \end{center}
 \end{figure}
 
-Create a new text file, that will provide the dynamic motion of the jaws. There are examples for all of the syncronized CMs in \,\Verb|$HEN_HOUSE/omega/beamnrc/CMs/sample_sequences/|. Copy the text at the end of this section and save the file as \,\Verb|example.sequence|\, in \,\Verb|$EGS_HOME/BEAM_syncjaws|\,. Now go back to the settings of the SYNCJAWS CM, click the \,\Verb|Browse|\, button and select the file (make sure the mode is set to \,\Verb|Dynamic|\,). Click \,\Verb|Preview|\, to view the first position of the jaws, before motion begins.
+Create a new text file, that will provide the dynamic motion of the jaws. There are examples for all of the syncronized CMs in \,\Verb|$HEN_HOUSE/omega/beamnrc/CMs/sample_sequences/|. Copy the text at the end of this section and save the file as \,\Verb|example.sequence|\, in \\
+\,\Verb|$EGS_HOME/BEAM_syncjaws|\,. Now go back to the settings of the SYNCJAWS CM, click the \,\Verb|Browse|\, button and select the file (make sure the mode is set to \,\Verb|Dynamic|\,). Click \,\Verb|Preview|\, to view the first position of the jaws, before motion begins.
 
 The format of the sequence file is described in section 15.3.8 of the BEAMnrc Users Manual (\href{https://nrc-cnrc.github.io/EGSnrc/doc/pirs509a-beamnrc.pdf}{PIRS509a}). Using this file, it is possible to model motion like jaw tracking, based on the the \textit{index} parameter (i.e. fractional MU or cumulative meterset weight). If multiple SYNC CMs are included, the index is used to synchronize motion. Use a repeated index to simulate motion with the beam off.
 
@@ -2499,7 +2509,8 @@ Ex: 2 static fields, 1 dynamic, for 2 jaws
 }
 
 \subsection{Run a BEAMnrc simulation}
-In the BEAMnrc GUI, go to \,\Verb|Execute -> Run|\, and click the \,\Verb|EXECUTE|\, button. Since we only set 100 histories to simulate, this will complete very quickly. Check the accelerator directory to find the phase-space that was saved as output (\,\Verb|$EGS_HOME/BEAM_syncjaws/example.egsphsp1|\,). The 1 in \,\Verb|*.egsphsp1|\, refers to the scoring plane number of the phase-space (we scored after CM 1, but if you had more CMs you could score multiple phase-spaces in the same simulation). Additional output is recorded in the \,\Verb|*.egslst|\, file.
+In the BEAMnrc GUI, go to \,\Verb|Execute -> Run|\, and click the \,\Verb|EXECUTE|\, button. Since we only set 100 histories to simulate, this will complete very quickly. Check the accelerator directory to find the phase-space that was saved as output \\
+(\,\Verb|$EGS_HOME/BEAM_syncjaws/example.egsphsp1|\,). The 1 in \,\Verb|*.egsphsp1|\, refers to the scoring plane number of the phase-space (we scored after CM 1, but if you had more CMs you could score multiple phase-spaces in the same simulation). Additional output is recorded in the \,\Verb|*.egslst|\, file.
 
 \clearpage
 \subsection{Analyze the phase-space with beamdp}
@@ -2833,7 +2844,7 @@ Some additional steps are required to compile the documentation locally.
 The \Verb+$HEN_HOUSE+ directory contains all source code and data files for the
 EGSnrc system. After installation, the contents of this directory generally remain unchanged.
 
-\begin{table}[h]
+\begin{table}[H]
 \caption{The folder structure and contents of the HEN\_HOUSE.}
 \begin{center}
 \begin{tabular}{|p{0.2\linewidth}|p{0.15\linewidth}|p{0.6\linewidth}|}
@@ -2852,7 +2863,7 @@ Category & Folder & Description \\ \hhline{|===|}
 
 % c++ & qt code
 \multirow{6}{*}{egs++ and Qt} & cutils & - C tools for parallel jobs and BEAMnrc sources \\ \hhline{|~|-|-|}
-    & egs++ & - C++ class library \\ \hhline{|~|-|-|}
+    & \multirow{2}{*}{egs++} & - C++ class library \\
     & & - ausgab objects, geometries and sources \\ \hhline{|~|-|-|}
     & gui & - Qt GUIs: egs\_configure, egs\_gui and egs\_inprz \\ \hhline{|~|-|-|}
     & iaea\_phsp & - C++ tools for IAEA phase-spaces \\ \hhline{|~|-|-|}
