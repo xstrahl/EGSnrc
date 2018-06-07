@@ -1024,7 +1024,7 @@ subroutine get_transport_parameter(ounit);
 "                        $HEN_HOUSE/data directory, where photon_xsections
 "                        is the name specified.
 "                        Hence this entry is case-sensitive.
-"                        [ photon_xsections ]
+"                        [ p_xsections ]
 "       Photon cross-sections output= Off (default) or On.  If On, then
 "                        a file $EGS_HOME/user_code/inputfile.xsections is
 "                        output containing photon cross-section data used.
@@ -1182,8 +1182,7 @@ $LOGICAL  ecut_inregions,pcut_inregions,smax_inregions,
           pe_inregions,aux_inregions,photonuc_inregions;"Ali:photonuc"
 
 character*15 output_strings(14);"Ali:photonuc, increased by 1"
-character*16 p_xsections;
-save         output_strings,line, p_xsections;
+save         output_strings,line;
 save         ecut_inregions,pcut_inregions,smax_inregions,
              incoh_inregions,coh_inregions,relax_inregions,
              pe_inregions,aux_inregions,photonuc_inregions,
@@ -1585,10 +1584,10 @@ IF( error_flags(num_eii) = 0 ) [
 IF( error_flags(num_pxsec) = 0 ) [
     p_xsections = char_value(num_pxsec,1);
     IF ( toUpper( $cstring(p_xsections) ) = 'MCDF-XCOM' )[
-        mcdf_pe_xsections = .true.; photon_xsections = 'xcom';
+        mcdf_pe_xsections = .true.; p_xsections = 'xcom';
     ]
     ELSEIF ( toUpper( $cstring(p_xsections) ) = 'MCDF-EPDL' )[
-        mcdf_pe_xsections = .true.; photon_xsections = 'epdl';
+        mcdf_pe_xsections = .true.; p_xsections = 'epdl';
     ]
     ELSE[
         mcdf_pe_xsections = .false.;

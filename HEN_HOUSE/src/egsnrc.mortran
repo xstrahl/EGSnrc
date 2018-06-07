@@ -2137,7 +2137,7 @@ NGRIM=NGR(IM);
 *********************************************************************/
 IF(IRAYLM(IM).EQ.1) ["Rayleigh data requested for medium IM"
   IF(IRAYL.NE.1) ["No data in PEGS4"
-    IF(toUpper($cstring(photon_xsections))='PEGS4')
+    IF(toUpper($cstring(p_xsections))='PEGS4')
     ["Rayleigh not possible"
      $egs_fatal('(a,i3 /,a /,a)',
      ' IN HATCH: REQUESTED RAYLEIGH OPTION FOR MEDIUM',
@@ -2151,7 +2151,7 @@ IF(IRAYLM(IM).EQ.1) ["Rayleigh data requested for medium IM"
     ]
   ]
  ELSE["Rayleigh data in PEGS4"
-    IF(toUpper($cstring(photon_xsections))='PEGS4')
+    IF(toUpper($cstring(p_xsections))='PEGS4')
     ["PEGS4 data selected"
       "***********************************************************"
       "Preparing data for new Rayleigh angular sampling when using"
@@ -2222,7 +2222,7 @@ $INITIALIZE-BREMS-ANGLE;
 $INITIALIZE-PAIR-ANGLE;
 
 " See if user has requested PEGS4 photon cross section data "
-IF(toUpper($cstring(photon_xsections)) = 'PEGS4')[
+IF(toUpper($cstring(p_xsections)) = 'PEGS4')[
   $egs_warning('(6(a/))','Using photon data from PEGS4 file!!!',
   'However, the new Rayleigh angular sampling will be used.',
   'The original EGS4 angular sampling undersamples large scattering ',
@@ -2233,9 +2233,9 @@ IF(toUpper($cstring(photon_xsections)) = 'PEGS4')[
 ]
 ELSE["re-calculates photon xsections using available or user data"
 "Ali:photonuc, 2 lines"
-    call egs_init_user_photon(photon_xsections,comp_xsections,
+    call egs_init_user_photon(p_xsections,comp_xsections,
     photonuc_xsections,xsec_out);
-"    call egs_init_user_photon(photon_xsections,comp_xsections,xsec_out);"
+"    call egs_init_user_photon(p_xsections,comp_xsections,xsec_out);"
 ]
 
 call mscati;       "Initialize new MS, step-sizes, etc, IK Oct 97"
@@ -2243,7 +2243,7 @@ call mscati;       "Initialize new MS, step-sizes, etc, IK Oct 97"
 "Calling order of the subroutines below is important when using"
 "detailed atomic relaxation in order to use the binding energies"
 "corresponding to the requested photon cross section library"
-IF ( eadl_relax & photon_xsections = 'xcom' )[
+IF ( eadl_relax & p_xsections = 'xcom' )[
    call init_compton; "Initialize bound Compton scattering"
    call EDGSET(1,1);  "Initialize relaxations and photo-absorption data"
 ]
@@ -2445,7 +2445,7 @@ $RADC_HATCH;
 
 $need_bound_compton_data(getd);
 IF( ~getd ) [
-    IF( eadl_relax & photon_xsections = 'xcom' )[
+    IF( eadl_relax & p_xsections = 'xcom' )[
         $egs_fatal('(a,/a,/a)',
                    'You must turn ON Compton binding corrections when using',
                    'a detailed atomic relaxation (eadl_relax=true) since ',
@@ -2481,7 +2481,7 @@ DO j=1,$MXTOTSH [
        IF(binding_energies(shn_array(j),iz_array(j)) > 0)[
          be_array(j) = binding_energies(shn_array(j),iz_array(j))/PRM;
        ]
-       ELSE IF(photon_xsections = 'xcom') [
+       ELSE IF(p_xsections = 'xcom') [
          "Use binding energies from incoh.data below 1 keV"
          binding_energies(shn_array(j),iz_array(j)) = be_array(j)*PRM;
        ]
@@ -5920,7 +5920,7 @@ DO medio = 1,nmed [
         IF (binding_energies(shell_num(ish),iZ) > 0)[
            shell_be(ish) = binding_energies(shell_num(ish),iZ);
         ]
-        ELSE IF( photon_xsections = 'epdl' )[
+        ELSE IF( p_xsections = 'epdl' )[
           "Use binding energies from relax.data below 1 keV"
            binding_energies(shell_num(ish),iZ) = shell_be(ish);
         ]

@@ -901,7 +901,7 @@ eii_L_factor = 1.0; "No L-shell EII xsection scaling by default"
 "See egsnrc.macros for defaults used below"
 "========================================="
 xsec_out = $XSEC-DEFAULT;
-photon_xsections = $XDATA-DEFAULT;"default photon xsection"
+p_xsections = $XDATA-DEFAULT;"default photon xsection"
 comp_xsections = $COMP-XDATA-DEFAULT;
 eadl_relax = $EADL-RELAX-DEFAULT;
 mcdf_pe_xsections = $MCDF-PE-DEFAULT;
@@ -1653,7 +1653,7 @@ data labels/'  K',' L1',' L2',' L3',
             ' N1',' N2',' N3',' N4',' N5',' N6',' N7'/;
 
 $egs_info('(a,a,a)',
-        'Binding energies from ',$cstring(photon_xsections),
+        'Binding energies from ',$cstring(p_xsections),
         ' photon cross section library');
 DO j = 1,$MXELEMENT [
    DO i = 1,$MXPESHELL [

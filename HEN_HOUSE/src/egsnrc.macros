@@ -937,7 +937,7 @@ REPLACE {;COMIN/MEDIA/;} WITH
 "Ali:photonuc, 4 lines (order matters because of padding issues)"
        $LGN(RLC,RLDU,RHO,MSGE,MGE,MSEKE,MEKE,MLEKE,MCMFP,MRANGE,
             IRAYLM,IPHOTONUCM($MXMED)),
-            MEDIA(24,$MXMED), photon_xsections, comp_xsections,
+            MEDIA(24,$MXMED), p_xsections, comp_xsections,
             photonuc_xsections,eii_xfile,IPHOTONUC,NMED;
    $TYPE    MEDIA;"media names"
    $REAL    RLC,  "radiation length in centimeters for a given medium"
@@ -964,8 +964,8 @@ REPLACE {;COMIN/MEDIA/;} WITH
             "  eii_'kolbenstvedt'.data "
             "  eii_'gryzinski'.data"
             "these must be in $HEN_HOUSE/data"
-   character*16 photon_xsections;
-            "If photon_xsections is not empty, photon cross sections will be"
+   character*16 p_xsections;
+            "If p_xsections is not empty, photon cross sections will be"
             "re-initialized using data files  "
             "  'photon_xsection'_photo.data   "
             "  'photon_xsection'_pair.data    "

@@ -146,11 +146,11 @@ REPLACE {;COMIN/MEDIA/;} WITH {
    $TYPE    MEDIA;
    $REAL    RLC,RLDU;
    $INTEGER MSGE,MGE,MSEKE,MEKE,MLEKE,MCMFP,MRANGE,IRAYLM;
-   common/media/   rho($MXMED),photon_xsections,eii_xfile,comp_xsections,
+   common/media/   rho($MXMED),p_xsections,eii_xfile,comp_xsections,
                    nmed;
    $REAL           rho;
    $INTEGER        nmed;
-   character*16    photon_xsections;
+   character*16    p_xsections;
    character*16    eii_xfile;
    character*16    comp_xsections;
 };

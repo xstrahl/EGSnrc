@@ -245,19 +245,19 @@
 
  IF(IOPT=0 | IOPT = 2)[
    write(*,'(a)')  ' Select photon cross section data base! ';
-   write(*,'(a,a)')' ENTER defaults to: ',$cstring(photon_xsections);
+   write(*,'(a,a)')' ENTER defaults to: ',$cstring(p_xsections);
    write(*,'(a$)')
    ' Photon xsections [si,xcom,mcdf-xcom,epdl,mcdf-epdl,pegs4,user-defined]:';
    read(*,'(a)') examin_pxsections;
    IF ($cstring(examin_pxsections).ne.char(32)) [
-      photon_xsections = $cstring(examin_pxsections);
+      p_xsections = $cstring(examin_pxsections);
    ]
 
    IF( toUpper( $cstring(examin_pxsections) ) = 'MCDF-XCOM' )[
-       mcdf_pe_xsections = .true.; photon_xsections = 'xcom';
+       mcdf_pe_xsections = .true.; p_xsections = 'xcom';
    ]
    ELSEIF( toUpper( $cstring(examin_pxsections) ) = 'MCDF-EPDL' )[
-       mcdf_pe_xsections = .true.; photon_xsections = 'epdl';
+       mcdf_pe_xsections = .true.; p_xsections = 'epdl';
    ]
    ELSE[mcdf_pe_xsections = .false.;]
 
@@ -343,7 +343,7 @@
      :LABL3:FORMAT(/' Radiation length = ',T35,F13.6,' cm'/
               ' Density = ',T35,F13.6,' g/cm**3');
 
-     WRITE(NUNIT,:LABL4b:) $cstring(photon_xsections);
+     WRITE(NUNIT,:LABL4b:) $cstring(p_xsections);
      :LABL4b: FORMAT( ' Photon data set: ', A,$);
      IF (p_comp = 0)[write(nunit,'(a)') ' (absolute components)';]
      ELSE           [write(nunit,'(a)') ' (relative components)';]
